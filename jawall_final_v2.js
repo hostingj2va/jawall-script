@@ -1,14 +1,15 @@
+// Jawall Ultimate Resource Blocker v4.0 - 100% Network & CSS Defense
 (function() {
     'use strict';
-
-    // Jawall Ultimate Resource Blocker v4.0 - 100% Network & CSS Defense
+    
+    // ===== NUCLEAR NETWORK BLOCKADE =====
     const blockedPatterns = [
-        '/pic/', '/upload', '.png', '.jpg', '.jpeg',
+        '/pic/', '/upload', '.png', '.jpg', '.jpeg', 
         '.gif', '.webp', '.mp4', '.webm', '.avi',
         '/jquery.tablesorter.min.js', '/jscolor/jscolor.js',
         '7IWnr.webp', 'uU3AN.webp' // Specific blocked images
     ];
-
+    
     // WebSocket Terminator
     const nativeWebSocket = window.WebSocket;
     window.WebSocket = function(url, protocols) {
@@ -23,7 +24,7 @@
         }
         return new nativeWebSocket(url, protocols);
     };
-
+    
     // Fetch Annihilator
     const nativeFetch = window.fetch;
     window.fetch = function(resource, init) {
@@ -38,7 +39,7 @@
         }
         return nativeFetch(resource, init);
     };
-
+    
     // XHR Destroyer
     const nativeXHR = window.XMLHttpRequest;
     window.XMLHttpRequest = class extends nativeXHR {
@@ -60,7 +61,7 @@
             super.send(body);
         }
     };
-
+    
     // ===== CSS IMAGE EXTERMINATOR =====
     const nukeCSSImages = () => {
         // 1. Destroy background images
@@ -72,11 +73,11 @@
                 console.log(`[🎨☢️] CSS BG NUKED: ${el.tagName}`);
             }
         });
-
+        
         // 2. Block future CSS images
         const nativeSetProperty = CSSStyleDeclaration.prototype.setProperty;
         CSSStyleDeclaration.prototype.setProperty = function(prop, value) {
-            if ((prop === 'background-image' || prop === 'background') &&
+            if ((prop === 'background-image' || prop === 'background') && 
                 blockedPatterns.some(p => value.includes(p))) {
                 console.log(`[🎨🚫] CSS BLOCKED: ${value.substring(0, 45)}${value.length > 45 ? '...' : ''}`);
                 return;
@@ -84,7 +85,7 @@
             nativeSetProperty.call(this, prop, value);
         };
     };
-
+    
     // ===== DOM NEUTRALIZATION ENGINE =====
     const activateDOMWarfare = () => {
         // 1. Eliminate all media elements
@@ -99,10 +100,10 @@
                 el.remove();
             }
         });
-
+        
         // 2. Destroy CSS background images
         nukeCSSImages();
-
+        
         // 3. Military-grade button disablement
         const wallButton = document.querySelector('button[onclick*="#wall"], button[data-target="#wall"]');
         if (wallButton) {
@@ -118,7 +119,7 @@
                 background: rgba(0,0,0,0.01);
                 cursor: not-allowed;
             `;
-
+            
             // Visual transformation
             wallButton.style.cssText = `
                 position: relative;
@@ -126,7 +127,7 @@
                 filter: grayscale(100%) blur(0.5px) !important;
                 pointer-events: none !important;
             `;
-
+            
             // Event nullification matrix
             const eventMatrix = ['click', 'mousedown', 'touchstart', 'keydown', 'mouseenter'];
             const nullify = e => {
@@ -134,17 +135,17 @@
                 e.preventDefault();
                 return false;
             };
-
+            
             eventMatrix.forEach(ev => {
                 wallButton.addEventListener(ev, nullify, {capture: true, passive: false});
                 quantumLock.addEventListener(ev, nullify, {capture: true, passive: false});
             });
-
+            
             wallButton.appendChild(quantumLock);
             console.log('[🛡️] Wall button locked with quantum shield');
         }
     };
-
+    
     // ===== PREDICTIVE DOM DEFENSE SYSTEM =====
     const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
@@ -163,26 +164,26 @@
                             console.log(`[⚡ PRE-EMPT] Removed ${node.tagName} element`);
                         }
                     }
-
+                    
                     // CSS backgrounds
                     nukeCSSImages();
-
+                    
                     // Buttons
-                    if (node.matches('button[onclick*="#wall"], button[data-target="#wall"]') ||
+                    if (node.matches('button[onclick*="#wall"], button[data-target="#wall"]') || 
                         node.querySelector('button[onclick*="#wall"], button[data-target="#wall"]')) {
                         setTimeout(activateDOMWarfare, 0);
                     }
                 }
             });
-
+            
             // Attribute changes
-            if (mutation.type === 'attributes' &&
+            if (mutation.type === 'attributes' && 
                 (mutation.attributeName === 'style' || mutation.attributeName === 'class')) {
                 nukeCSSImages();
             }
         });
     });
-
+    
     // ===== PRE-LOGIN ACTIVATION PROTOCOL =====
     const initializeBlockade = () => {
         activateDOMWarfare();
@@ -192,7 +193,7 @@
             attributes: true,
             attributeFilter: ['style', 'class', 'src']
         });
-
+        
         // Nuclear option for image constructors
         const nativeImage = window.Image;
         window.Image = class BlockedImage extends nativeImage {
@@ -217,22 +218,22 @@
             }
         };
     };
-
+    
     // ===== EXECUTION =====
     // Immediate execution before DOM load
     initializeBlockade();
-
+    
     // Run again after DOM loads
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeBlockade);
     }
-
+    
     // Continuous monitoring
     setInterval(() => {
         nukeCSSImages();
         activateDOMWarfare();
     }, 3000);
-
+    
     console.log('%cJAWALL QUANTUM DEFENSE ENGAGED', 'font-size: 18px; background: linear-gradient(to right, #000, #d00); color: white; padding: 10px; border: 2px solid red;');
     console.log('✅ Network requests vaporized\n✅ CSS backgrounds annihilated\n✅ DOM manipulations neutralized');
 })();
